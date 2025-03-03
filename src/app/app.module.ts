@@ -1,18 +1,34 @@
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
+import { StartGameComponent } from './pages/start-game/start-game.component';
+import { MainGameComponent } from './pages/main-game/main-game.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StartGameComponent,
+    MainGameComponent,
+    StartGameComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatIconModule,
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

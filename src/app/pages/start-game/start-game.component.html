@@ -1,0 +1,29 @@
+<div [formGroup]="settingsForm" class="p-3">
+  <h1>Configuracion del juego</h1>
+
+  <div class="d-flex w-100 flex-column justify-content-space-around">
+    <div class="d-flex align-items-center">
+      <label for="rounds" class="form-label"
+        >Introduce el numero de rondas</label
+      >
+      <div class="d-flex flex-row">
+        <button
+          mat-icon-button
+          class="d-flex align-items-center"
+          (click)="decrementRounds()"
+        >
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <input
+          type="text"
+          id="rounds"
+          formControlName="rounds"
+          class="form-control"
+        />
+        <button mat-icon-button (click)="incrementRounds()">
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
