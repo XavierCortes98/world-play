@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { GameConfigService } from 'src/app/services/game-config.service';
+import { teamsValidator } from 'src/app/validators/validators';
 
 @Component({
   selector: 'app-start-game',
@@ -9,23 +18,63 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class StartGameComponent implements OnInit {
   settingsForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private gameConfigService: GameConfigService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.settingsForm = this.formBuilder.group({
-      rounds: 0,
-      time: '',
-      words: 0,
+    this.settingsForm = this.fb.group({
+      rounds: 1,
+      time: 5,
+      words: 1,
+      teams: this.fb.array(
+        [this.fb.control('', Validators.required), this.fb.control('')],
+        teamsValidator()
+      ),
     });
   }
 
-  incrementRounds() {
-    let value = this.settingsForm.get('rounds')?.value || 0;
-    this.settingsForm.get('rounds')?.setValue(value + 1);
+  get teams(): FormArray {
+    return this.settingsForm.get('teams') as FormArray;
   }
 
-  decrementRounds() {
-    let value = this.settingsForm.get('rounds')?.value || 0;
-    this.settingsForm.get('rounds')?.setValue(value - 1);
+  onFocusInput(index: number): void {
+    if (index === this.teams.length - 1) {
+      this.teams.at(index).setValidators(Validators.required);
+      this.teams.at(index).updateValueAndValidity();
+      this.teams.push(this.fb.control(''));
+    }
+  }
+
+  removeEmptyTeam(index: number): void {
+    if (index !== this.teams.length - 1) {
+      const control = this.teams.at(index);
+      if (!control.value || control.value.trim() === '') {
+        this.teams.removeAt(index);
+      }
+    }
+    if (this.teams.length === 1) {
+      this.teams.at(0).setValidators(Validators.required);
+      this.teams.at(index).updateValueAndValidity();
+    }
+  }
+
+  startGame(): void {
+    if (this.settingsForm.valid) {
+      this.gameConfigService.setConfig(this.settingsForm.value);
+    }
+    this.router.navigate(['/game']);
+  }
+
+  teamValidator(): ValidationErrors | null {
+    const filledTeams = this.teams.controls.filter(
+      (control) => control.value && control.value.trim() !== ''
+    );
+    if (filledTeams.length < 2) {
+      return { notEnoughTeams: true };
+    }
+    return null;
   }
 }

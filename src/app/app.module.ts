@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { StartGameComponent } from './pages/start-game/start-game.component';
 import { MainGameComponent } from './pages/main-game/main-game.component';
+import { NumericInputComponent } from './components/numeric-input/numeric-input.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MainGameComponent } from './pages/main-game/main-game.component';
     StartGameComponent,
     MainGameComponent,
     StartGameComponent,
+    NumericInputComponent,
   ],
   imports: [
     BrowserAnimationsModule,

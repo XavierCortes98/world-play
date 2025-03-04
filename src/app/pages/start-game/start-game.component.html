@@ -1,29 +1,74 @@
-<div [formGroup]="settingsForm" class="p-3">
-  <h1>Configuracion del juego</h1>
+<div
+  [formGroup]="settingsForm"
+  class="d-flex flex-column align-items-center p-4"
+>
+  <h1 class="pb-3">Configuracion del juego</h1>
 
-  <div class="d-flex w-100 flex-column justify-content-space-around">
-    <div class="d-flex align-items-center">
-      <label for="rounds" class="form-label"
-        >Introduce el numero de rondas</label
+  <div class="d-flex w-100 flex-column justify-content-space-around gap-4">
+    <app-numeric-input
+      inputId="rounds"
+      label="Introduce el numero de rondas"
+      [value]="settingsForm.get('rounds')?.value"
+      [min]="1"
+      [step]="1"
+      (valueChange)="settingsForm.get('rounds')?.setValue($event)"
+    ></app-numeric-input>
+
+    <app-numeric-input
+      inputId="time"
+      label="Introduce el tiempo por ronda"
+      [value]="settingsForm.get('time')?.value"
+      [min]="1"
+      [step]="1"
+      (valueChange)="settingsForm.get('time')?.setValue($event)"
+    ></app-numeric-input>
+
+    <app-numeric-input
+      inputId="words"
+      label="Introduce el numero de palabras por ronda"
+      [value]="settingsForm.get('words')?.value"
+      [min]="1"
+      [step]="1"
+      (valueChange)="settingsForm.get('words')?.setValue($event)"
+    ></app-numeric-input>
+
+    <fieldset
+      formArrayName="teams"
+      class="d-flex flex-column align-items-center p-3"
+    >
+      <legend
+        for="words"
+        class="form-label pb-2 text-center"
+        aria-label="Introduce los equipos"
       >
-      <div class="d-flex flex-row">
-        <button
-          mat-icon-button
-          class="d-flex align-items-center"
-          (click)="decrementRounds()"
+        Introduce los equipos
+      </legend>
+      <div class="groupWrapper">
+        <div
+          *ngFor="let teamControl of teams.controls; let i = index"
+          class="w-75"
         >
-          <mat-icon>arrow_back_ios</mat-icon>
-        </button>
-        <input
-          type="text"
-          id="rounds"
-          formControlName="rounds"
-          class="form-control"
-        />
-        <button mat-icon-button (click)="incrementRounds()">
-          <mat-icon>arrow_forward_ios</mat-icon>
-        </button>
+          <input
+            type="text"
+            [id]="'team' + i"
+            [formControlName]="i"
+            [placeholder]="'Nombre del equipo ' + (i + 1)"
+            class="form-control mb-2 text-center"
+            (focus)="onFocusInput(i)"
+            (blur)="removeEmptyTeam(i)"
+            [attr.aria-label]="'Nombre del equipo ' + (i + 1)"
+          />
+        </div>
       </div>
-    </div>
+    </fieldset>
   </div>
+
+  <button
+    type="button"
+    mat-raised-button
+    [disabled]="!settingsForm.valid"
+    (click)="startGame()"
+  >
+    Start Game
+  </button>
 </div>
