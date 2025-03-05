@@ -30,8 +30,11 @@ export class ChronoService {
       .subscribe(() => {
         this.countdown.next(this.formatTime(seconds));
         seconds--;
-        console.log(seconds);
       });
+  }
+
+  getSecondsLeft(): number {
+    return parseInt(this.countdown.value.split(':')[1]);
   }
 
   stopCountdown(): void {

@@ -1,4 +1,42 @@
-<div>
-  <span>{{ timeLeft }}</span>
-  <button (click)="start()">Start Timer</button>
+<div class="d-flex flex-column vh-100 justify-content-between p-3">
+  <div class="d-flex flex-row w-100 justify-content-between">
+    <div id="timeContainer" class="timer" (click)="start()">
+      ⏳ <span id="timeLeft">{{ timeLeft }}</span
+      >s
+    </div>
+    <span
+      class="score"
+      [ngClass]="{ 'animate-correct': animateCorrect }"
+      (animationend)="animateCorrect = false"
+    >
+      Aciertos: {{ correctWords }}</span
+    >
+  </div>
+  <div class="d-flex justify-content-center align-items-center">
+    <span
+      class="text-center current-word"
+      [@wordAnimation]="animationState"
+      (@wordAnimation.done)="wordAnimationDone()"
+    >
+      {{ currentWord }}
+    </span>
+  </div>
+  <div class="d-flex flex-row w-100 justify-content-between">
+    <button
+      mat-button
+      class="next_word_button"
+      (click)="nextWord()"
+      [disabled]="isDisabled"
+    >
+      Next Word
+    </button>
+    <button
+      mat-button
+      class="correct_word_button"
+      (click)="correctWord()"
+      [disabled]="isDisabled"
+    >
+      Correct Word
+    </button>
+  </div>
 </div>

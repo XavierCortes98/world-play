@@ -1,0 +1,81 @@
+.timer {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: green;
+  transition: color 0.3s ease-in-out;
+}
+
+// Animación contador
+.timer.low-time {
+  color: red;
+  animation: pulse 0.5s infinite alternate;
+}
+
+.score {
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
+
+// Animación acierto
+.animate-correct {
+  animation: scaleAnimation 0.5s ease-in-out;
+}
+
+.current-word {
+  font-size: 4em;
+  font-weight: bold;
+  color: #333;
+}
+
+.next_word_button {
+  color: white !important;
+  background-color: rgb(213, 61, 61);
+  padding: 2em;
+  border-radius: 8px;
+}
+
+.next_word_button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+
+  transition: opacity 0.3s ease;
+}
+
+.correct_word_button {
+  color: black !important;
+  background-color: rgb(71, 213, 61);
+  padding: 2em;
+  border-radius: 8px;
+}
+
+.correct_word_button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+
+  transition: opacity 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes scaleAnimation {
+  0% {
+    transform: scale(1);
+    color: #000;
+  }
+  50% {
+    transform: scale(1.1);
+    color: #4caf50;
+  }
+  100% {
+    transform: scale(1);
+    color: #000;
+  }
+}
