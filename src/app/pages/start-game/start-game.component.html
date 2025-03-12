@@ -46,16 +46,17 @@
       <div class="groupWrapper">
         <div
           *ngFor="let teamControl of teams.controls; let i = index"
+          [formGroupName]="i"
           class="w-75"
         >
           <input
             type="text"
             [id]="'team' + i"
-            [formControlName]="i"
+            formControlName="name"
             [placeholder]="'Nombre del equipo ' + (i + 1)"
             class="form-control mb-2 text-center"
             (focus)="onFocusInput(i)"
-            (blur)="removeEmptyTeam(i)"
+            (blur)="onBlurInput(i)"
             [attr.aria-label]="'Nombre del equipo ' + (i + 1)"
           />
         </div>

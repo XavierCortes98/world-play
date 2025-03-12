@@ -11,20 +11,20 @@ import {
   providedIn: 'root',
 })
 export class ChronoService {
-  private countdown = new BehaviorSubject<string>('00:00');
+  private countdown = new BehaviorSubject<string>('99:99');
   countdown$ = this.countdown.asObservable();
   private running = false;
   private timerSubscription: Subscription | null = null;
 
   startMinutesCountDown(minutes: number): void {
     if (this.running) return;
-    console.log('service');
     this.running = true;
 
-    let seconds = minutes * 60;
+    // let seconds = minutes * 60;
+    let seconds = 5;
     this.timerSubscription = interval(1000)
       .pipe(
-        takeWhile(() => seconds >= 0),
+        takeWhile(() => seconds > 0),
         finalize(() => this.stopCountdown())
       )
       .subscribe(() => {
@@ -34,10 +34,12 @@ export class ChronoService {
   }
 
   getSecondsLeft(): number {
-    return parseInt(this.countdown.value.split(':')[1]);
+    const timeParts = this.countdown.value.split(':');
+    return parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
   }
 
   stopCountdown(): void {
+    console.log('unsubscribing');
     this.running = false;
     this.timerSubscription?.unsubscribe();
     this.timerSubscription = null;

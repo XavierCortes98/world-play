@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Team } from 'src/app/models/team.model';
 import { GameConfigService } from 'src/app/services/game-config.service';
 import { teamsValidator } from 'src/app/validators/validators';
 
@@ -26,13 +29,21 @@ export class StartGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.settingsForm = this.fb.group({
-      rounds: 1,
-      time: 5,
-      words: 1,
+      rounds: [1, [Validators.required, Validators.min(1)]],
+      time: [1, [Validators.required, Validators.min(1)]],
+      words: [1, [Validators.required, Validators.min(1)]],
       teams: this.fb.array(
-        [this.fb.control('', Validators.required), this.fb.control('')],
+        [this.createTeamFormGroup(), this.createTeamFormGroup()],
         teamsValidator()
       ),
+    });
+  }
+
+  createTeamFormGroup(): FormGroup {
+    return this.fb.group({
+      name: [''],
+      score: [[]],
+      color: ['#d1b05c'],
     });
   }
 
@@ -42,39 +53,39 @@ export class StartGameComponent implements OnInit {
 
   onFocusInput(index: number): void {
     if (index === this.teams.length - 1) {
-      this.teams.at(index).setValidators(Validators.required);
-      this.teams.at(index).updateValueAndValidity();
-      this.teams.push(this.fb.control(''));
+      const teamGroup = this.teams.at(index) as FormGroup;
+      teamGroup.get('name')?.setValidators(Validators.required);
+      teamGroup.get('name')?.updateValueAndValidity();
+      this.teams.push(this.createTeamFormGroup());
     }
   }
 
-  removeEmptyTeam(index: number): void {
-    if (index !== this.teams.length - 1) {
-      const control = this.teams.at(index);
-      if (!control.value || control.value.trim() === '') {
-        this.teams.removeAt(index);
-      }
-    }
-    if (this.teams.length === 1) {
-      this.teams.at(0).setValidators(Validators.required);
-      this.teams.at(index).updateValueAndValidity();
+  onBlurInput(index: number): void {
+    const teamGroup = this.teams.at(index) as FormGroup;
+    const teamName = teamGroup.get('name')?.value.trim();
+
+    if (teamName !== '') {
+      teamGroup.get('name')?.setValidators(Validators.required);
+      teamGroup.get('name')?.updateValueAndValidity();
+    } else if (this.teams.length > 2) {
+      this.teams.removeAt(index);
     }
   }
 
   startGame(): void {
     if (this.settingsForm.valid) {
-      this.gameConfigService.setConfig(this.settingsForm.value);
+      const config = {
+        ...this.gameConfigService.getConfig,
+        ...this.settingsForm.value,
+      };
+
+      config.teams = config.teams.map((team: Team) => ({
+        ...team,
+        score: new Array(config.rounds).fill(0),
+      }));
+
+      this.gameConfigService.setConfig(config);
     }
     this.router.navigate(['/game']);
-  }
-
-  teamValidator(): ValidationErrors | null {
-    const filledTeams = this.teams.controls.filter(
-      (control) => control.value && control.value.trim() !== ''
-    );
-    if (filledTeams.length < 2) {
-      return { notEnoughTeams: true };
-    }
-    return null;
   }
 }

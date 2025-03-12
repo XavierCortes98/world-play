@@ -1,8 +1,17 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  AnimationEvent,
+} from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GameConfig } from 'src/app/models/game-config.model';
-import { ChronoService } from 'src/app/services/chrono.service';
+
 import { GameConfigService } from 'src/app/services/game-config.service';
+import { ChronoService } from 'src/app/services/chrono.service';
+import { Team } from 'src/app/models/team.model';
+import { MatDialog } from '@angular/material/dialog';
+import { RoundTransitionComponent } from 'src/app/components/round-transition/round-transition.component';
 
 @Component({
   selector: 'app-main-game',
@@ -10,21 +19,18 @@ import { GameConfigService } from 'src/app/services/game-config.service';
   styleUrls: ['./main-game.component.scss'],
   animations: [
     trigger('wordAnimation', [
-      // Animación de salida para Next Word: sale hacia la izquierda
       transition('in => nextOut', [
         animate(
           '400ms ease-in',
           style({ opacity: 0, transform: 'translateX(-100px)' })
         ),
       ]),
-      // Animación de salida para Correct Word: sale hacia la derecha
       transition('in => correctOut', [
         animate(
           '400ms ease-in',
           style({ opacity: 0, transform: 'translateX(100px)' })
         ),
       ]),
-      // Animación de entrada: la nueva palabra aparece desde la izquierda
       transition('* => in', [
         style({ opacity: 0, transform: 'translateX(-100px)' }),
         animate(
@@ -36,44 +42,38 @@ import { GameConfigService } from 'src/app/services/game-config.service';
   ],
 })
 export class MainGameComponent implements OnInit, OnDestroy {
-  private gameConfig: GameConfig = {
-    rounds: 0,
-    time: 0,
-    words: 0,
-    teams: [],
-  };
   animationState: 'in' | 'nextOut' | 'correctOut' = 'in';
-  isDisabled = false;
-  currentWord = '';
+  isInputDisabled = false;
   animateCorrect = false;
-  words = [
-    'manzana',
-    'perro',
-    'casa',
-    'sol',
-    'mar',
-    'libro',
-    'cielo',
-    'montaña',
-    'rio',
-    'estrella',
-  ];
-  correctWords = 0;
-
+  currentWord = '';
+  score = 0;
+  currentTeam: Team = {
+    name: '',
+    score: [],
+    color: '',
+  };
   timeLeft = '00:00';
+
+  copyWordPool = [''];
 
   constructor(
     private gameConfigService: GameConfigService,
-    private chronoService: ChronoService
-  ) {}
-
-  ngOnInit(): void {
-    this.gameConfig = this.gameConfigService.getConfig();
-    this.currentWord = this.words[0];
+    private chronoService: ChronoService,
+    private dialog: MatDialog
+  ) {
     this.chronoService.countdown$.subscribe((time) => {
       this.timeLeft = time;
       this.updateTimerUI();
     });
+  }
+
+  ngOnInit(): void {
+    this.currentTeam = this.gameConfigService.getTeam;
+    this.copyWordPool = this.gameConfigService.getWordsPool;
+    this.currentWord =
+      this.copyWordPool[Math.floor(Math.random() * this.copyWordPool.length)];
+
+    this.chronoService.startMinutesCountDown(this.gameConfigService.getTime);
   }
 
   ngOnDestroy(): void {
@@ -82,7 +82,14 @@ export class MainGameComponent implements OnInit, OnDestroy {
 
   updateTimerUI() {
     const timeContainer = document.getElementById('timeContainer');
-    if (this.chronoService.getSecondsLeft() <= 55) {
+    console.log(this.chronoService.getSecondsLeft());
+    if (this.chronoService.getSecondsLeft() <= 0) {
+      this.dialog.open(RoundTransitionComponent, {
+        width: '400px',
+      });
+    }
+
+    if (this.chronoService.getSecondsLeft() <= 10) {
       timeContainer?.classList.add('low-time');
     } else {
       timeContainer?.classList.remove('low-time');
@@ -90,29 +97,32 @@ export class MainGameComponent implements OnInit, OnDestroy {
   }
 
   handleWord(isCorrect: boolean): void {
-    if (this.isDisabled) return;
+    if (this.isInputDisabled) return;
 
-    this.isDisabled = true;
+    this.isInputDisabled = true;
     if (isCorrect) {
-      this.correctWords++;
+      this.score++;
       this.animateCorrect = true;
-      // La palabra saldrá hacia la derecha
       this.animationState = 'correctOut';
+      this.copyWordPool = this.copyWordPool.filter(
+        (word) => word !== this.currentWord
+      );
     } else {
-      // La palabra saldrá hacia la izquierda
       this.animationState = 'nextOut';
     }
-
-    // Espera a que termine la animación de salida (300ms) para actualizar la palabra
-    setTimeout(() => {
-      this.words.shift();
-      this.currentWord = this.words[0] || '';
-      this.animationState = 'in';
-    }, 400);
   }
 
-  wordAnimationDone(): void {
-    this.isDisabled = false;
+  wordAnimationDone(event: AnimationEvent): void {
+    if (
+      event.fromState === 'in' &&
+      (event.toState === 'nextOut' || event.toState === 'correctOut')
+    ) {
+      this.currentWord =
+        this.copyWordPool[Math.floor(Math.random() * this.copyWordPool.length)];
+
+      this.animationState = 'in';
+      this.isInputDisabled = false;
+    }
   }
 
   nextWord(): void {
@@ -123,7 +133,5 @@ export class MainGameComponent implements OnInit, OnDestroy {
     this.handleWord(true);
   }
 
-  start(): void {
-    this.chronoService.startMinutesCountDown(this.gameConfig.time);
-  }
+  start(): void {}
 }
