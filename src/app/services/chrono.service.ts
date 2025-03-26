@@ -16,20 +16,20 @@ export class ChronoService {
   private running = false;
   private timerSubscription: Subscription | null = null;
 
-  startMinutesCountDown(minutes: number): void {
+  startMinutesCountDown(minutes: number = 0, seconds: number = 0): void {
     if (this.running) return;
     this.running = true;
 
-    // let seconds = minutes * 60;
-    let seconds = 5;
+    let totalSeconds = minutes * 60 + seconds;
+    this.countdown.next(this.formatTime(totalSeconds));
     this.timerSubscription = interval(1000)
       .pipe(
-        takeWhile(() => seconds > 0),
+        takeWhile(() => totalSeconds > 0),
         finalize(() => this.stopCountdown())
       )
       .subscribe(() => {
-        this.countdown.next(this.formatTime(seconds));
-        seconds--;
+        totalSeconds--;
+        this.countdown.next(this.formatTime(totalSeconds));
       });
   }
 

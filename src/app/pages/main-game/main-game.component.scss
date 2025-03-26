@@ -1,11 +1,18 @@
+// .test {
+//   background-image: url("/assets/game-background3.webp");
+//   background-size: cover;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   height: 100vh;
+// }
+
 .timer {
   font-size: 1.2rem;
+  min-width: 82px;
   font-weight: bold;
-  color: green;
   transition: color 0.3s ease-in-out;
 }
 
-// Animación contador
 .timer.low-time {
   color: red;
   animation: pulse 0.5s infinite alternate;
@@ -17,14 +24,14 @@
   transition: color 0.3s;
 }
 
-// Animación acierto
 .animate-correct {
   animation: scaleAnimation 0.5s ease-in-out;
 }
 
 .current-word {
-  font-size: 4em;
-  font-weight: bold;
+  overflow-wrap: anywhere;
+  font-size: 3em;
+  font-weight: normal;
   color: #333;
 }
 
@@ -38,7 +45,6 @@
 .next_word_button:disabled {
   opacity: 0.5;
   pointer-events: none;
-
   transition: opacity 0.3s ease;
 }
 
@@ -52,7 +58,6 @@
 .correct_word_button:disabled {
   opacity: 0.5;
   pointer-events: none;
-
   transition: opacity 0.3s ease;
 }
 

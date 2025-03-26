@@ -12,6 +12,9 @@ import { ChronoService } from 'src/app/services/chrono.service';
 import { Team } from 'src/app/models/team.model';
 import { MatDialog } from '@angular/material/dialog';
 import { RoundTransitionComponent } from 'src/app/components/round-transition/round-transition.component';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { WordService } from 'src/app/services/word.service';
 
 @Component({
   selector: 'app-main-game',
@@ -43,52 +46,59 @@ import { RoundTransitionComponent } from 'src/app/components/round-transition/ro
 })
 export class MainGameComponent implements OnInit, OnDestroy {
   animationState: 'in' | 'nextOut' | 'correctOut' = 'in';
+  countdownSubscription: Subscription | null = null;
   isInputDisabled = false;
   animateCorrect = false;
+  remainingTime = 0;
   currentWord = '';
   score = 0;
+
   currentTeam: Team = {
     name: '',
     score: [],
     color: '',
   };
-  timeLeft = '00:00';
+
+  timeLeft = '99:99';
 
   copyWordPool = [''];
 
   constructor(
     private gameConfigService: GameConfigService,
+    private wordService: WordService,
     private chronoService: ChronoService,
-    private dialog: MatDialog
-  ) {
-    this.chronoService.countdown$.subscribe((time) => {
-      this.timeLeft = time;
-      this.updateTimerUI();
-    });
-  }
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.currentTeam = this.gameConfigService.getTeam;
-    this.copyWordPool = this.gameConfigService.getWordsPool;
+    this.copyWordPool = this.wordService.getWordsPool;
     this.currentWord =
       this.copyWordPool[Math.floor(Math.random() * this.copyWordPool.length)];
 
-    this.chronoService.startMinutesCountDown(this.gameConfigService.getTime);
+    this.chronoService.startMinutesCountDown(
+      0,
+      this.gameConfigService.getTimeNumber
+    );
+    this.countdownSubscription = this.chronoService.countdown$.subscribe(
+      (time) => {
+        this.timeLeft = time;
+        this.updateTimerUI();
+      }
+    );
   }
 
   ngOnDestroy(): void {
+    this.countdownSubscription?.unsubscribe();
     this.chronoService.stopCountdown();
   }
 
   updateTimerUI() {
     const timeContainer = document.getElementById('timeContainer');
-    console.log(this.chronoService.getSecondsLeft());
     if (this.chronoService.getSecondsLeft() <= 0) {
-      this.dialog.open(RoundTransitionComponent, {
-        width: '400px',
-      });
+      this.endOfRound();
     }
-
     if (this.chronoService.getSecondsLeft() <= 10) {
       timeContainer?.classList.add('low-time');
     } else {
@@ -107,6 +117,9 @@ export class MainGameComponent implements OnInit, OnDestroy {
       this.copyWordPool = this.copyWordPool.filter(
         (word) => word !== this.currentWord
       );
+      if (this.copyWordPool.length === 0) {
+        this.endOfRound();
+      }
     } else {
       this.animationState = 'nextOut';
     }
@@ -133,5 +146,61 @@ export class MainGameComponent implements OnInit, OnDestroy {
     this.handleWord(true);
   }
 
-  start(): void {}
+  endOfRound(): void {
+    this.remainingTime = this.chronoService.getSecondsLeft();
+    this.countdownSubscription?.unsubscribe();
+    this.countdownSubscription = null;
+    this.chronoService.stopCountdown();
+    this.gameConfigService.setTeamScore(this.score);
+    if (this.copyWordPool.length > 0) {
+      this.gameConfigService.nextTeam();
+    }
+    if (this.gameConfigService.isLastRound && this.copyWordPool.length === 0) {
+      // Lógica para finalizar el juego, por ejemplo navegar a la pantalla de resultados finales
+      this.router.navigate(['/rounds']);
+    } else {
+      this.dialog
+        .open(RoundTransitionComponent, {
+          width: '600px',
+          height: '75%',
+          disableClose: true,
+        })
+        .afterClosed()
+        .subscribe(() => {
+          this.newRound();
+        });
+    }
+  }
+
+  newRound(): void {
+    this.score = 0;
+
+    if (this.copyWordPool.length === 0) {
+      this.copyWordPool = this.wordService.getWordsPool;
+      this.chronoService.startMinutesCountDown(0, this.remainingTime);
+      this.countdownSubscription = this.chronoService.countdown$.subscribe(
+        (time) => {
+          this.timeLeft = time;
+          this.updateTimerUI();
+        }
+      );
+      this.gameConfigService.nextRound();
+    } else if (this.chronoService.getSecondsLeft() <= 0) {
+      this.chronoService.startMinutesCountDown(
+        0,
+        this.gameConfigService.getTimeNumber
+      );
+      this.countdownSubscription = this.chronoService.countdown$.subscribe(
+        (time) => {
+          this.timeLeft = time;
+          this.updateTimerUI();
+        }
+      );
+
+      this.currentTeam = this.gameConfigService.getTeam;
+    }
+
+    this.currentWord =
+      this.copyWordPool[Math.floor(Math.random() * this.copyWordPool.length)];
+  }
 }

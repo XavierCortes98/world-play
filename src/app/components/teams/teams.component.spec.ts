@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainGameComponent } from './main-game.component';
+import { TeamsComponent } from './teams.component';
 
-describe('MainGameComponent', () => {
-  let component: MainGameComponent;
-  let fixture: ComponentFixture<MainGameComponent>;
+describe('TeamsComponent', () => {
+  let component: TeamsComponent;
+  let fixture: ComponentFixture<TeamsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MainGameComponent]
+      declarations: [TeamsComponent]
     });
-    fixture = TestBed.createComponent(MainGameComponent);
+    fixture = TestBed.createComponent(TeamsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

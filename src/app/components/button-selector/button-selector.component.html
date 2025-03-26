@@ -1,0 +1,29 @@
+<div class="vh-100 w-100 d-flex flex-column align-items-center p-4">
+  <h2 class="fw-medium">{{ title | translate }}</h2>
+  <div class="button-grid">
+    <button
+      mat-raised-button
+      class="selectButton"
+      *ngFor="let buttonValue of buttonsValues"
+      [ngClass]="{ active: defaultValue === buttonValue }"
+      (click)="emitValue(buttonValue)"
+    >
+      {{ buttonValue }}
+    </button>
+  </div>
+
+  <div
+    class="w-100 d-flex"
+    [ngClass]="{
+      'justify-content-between': prevPageRoute,
+      'justify-content-end': !prevPageRoute
+    }"
+  >
+    <button *ngIf="prevPageRoute" mat-raised-button (click)="prevPage()">
+      ← {{ "initSettings.back" | translate }}
+    </button>
+    <button mat-raised-button class="nextButton" (click)="nextPage()">
+      {{ "initSettings.next" | translate }} →
+    </button>
+  </div>
+</div>

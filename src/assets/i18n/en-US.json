@@ -1,0 +1,26 @@
+{
+  "initSettings": {
+    "pickRound": "Select the number of rounds",
+    "pickTime": "Select the time per round",
+    "pickWords": "Select the number of words",
+    "addTeams": "Enter the teams",
+    "summary": "Final settings",
+    "rounds": "Rounds",
+    "time": "Time",
+    "words": "Words",
+    "teams": "Teams",
+    "back": "Back",
+    "next": "Next",
+    "play": "Play!"
+  },
+  "mainGame": {
+    "guessed": "Guessed",
+    "nextWord": "Next Word",
+    "correctWord": "Correct Word"
+  },
+  "roundTransition": {
+    "teamTurn": "Team to play",
+    "language": "Language",
+    "play": "Play!"
+  }
+}

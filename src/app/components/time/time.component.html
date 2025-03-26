@@ -1,0 +1,9 @@
+<app-button-selector
+  class="w-100 h-100 d-flex flex-column align-items-center"
+  [defaultValue]="time"
+  [title]="'initSettings.pickTime'"
+  [buttonsValues]="[30, 45, 60, 90]"
+  [prevPageRoute]="'/rounds'"
+  [nextPageRoute]="'/words'"
+  (valueSelected)="setTimeValue($event)"
+></app-button-selector>

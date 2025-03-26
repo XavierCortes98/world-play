@@ -1,0 +1,51 @@
+<div class="vh-100 w-100 d-flex flex-column align-items-center p-3">
+  <h2 class="text-center">{{ "initSettings.summary" | translate }}</h2>
+  <div class="d-flex flex-column h-100 gap-2">
+    <div
+      *ngFor="let item of configItems"
+      class="w-100 d-flex align-items-center justify-content-center gap-3"
+    >
+      <label [for]="item.id" class="fw-bold text-end"
+        >{{ item.label | translate }}:</label
+      >
+
+      <input
+        class="form-control w-auto"
+        [placeholder]=""
+        type="text"
+        [id]="item.id"
+        [value]="item.value"
+        readonly
+      />
+
+      <button
+        mat-icon-button
+        class="d-flex justify-content-center"
+        (click)="navPage(item.route)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <div class="d-flex flex-column w-100 gap-3 align-items-center">
+      <label class="fw-bold text-end">{{
+        "initSettings.teams" | translate
+      }}</label>
+      <div class="d-flex flex-row w-100 gap-2">
+        <mat-chip
+          *ngFor="let team of teams"
+          [ngStyle]="{ 'background-color': team.color }"
+          >{{ team.name }}</mat-chip
+        >
+      </div>
+    </div>
+  </div>
+  <div class="w-100 d-flex justify-content-between">
+    <button mat-raised-button (click)="prevPage()">
+      ← {{ "initSettings.back" | translate }}
+    </button>
+    <button mat-raised-button (click)="nextPage()">
+      {{ "initSettings.play" | translate }}
+    </button>
+  </div>
+</div>

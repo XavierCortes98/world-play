@@ -1,4 +1,74 @@
-<div class="d-flex flex-column p-3">
-  <span>Ronda acabada</span>
-  <button mat-button (click)="close()">Siguiente ronda</button>
-</div>
+<ng-container *ngIf="!nextRound; else nextRoundTemplate">
+  <mat-dialog-content class="d-flex flex-column p-3 gap-4">
+    <h2>Ronda acabada</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <ng-container *ngFor="let ronda of rondas; index as i">
+              <th [ngClass]="{ 'gray-bg': i % 2 === 0 }">R{{ i + 1 }}</th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let team of gameConfigService.teams">
+            <td [style.backgroundColor]="team.color">{{ team.name }}</td>
+            <ng-container *ngFor="let ronda of rondas; index as i">
+              <td>{{ team.score[i] !== undefined ? team.score[i] : 0 }}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="nextRound = true">Siguiente equipo</button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-template #nextRoundTemplate>
+  <div
+    class="d-flex flex-column w-100 h-100 p-3"
+    [ngStyle]="{ 'background-color': nextTeam.color }"
+  >
+    <div
+      class="d-flex flex-column align-items-center justify-content-center h-100"
+    >
+      <span class="head">{{ "roundTransition.teamTurn" | translate }}:</span>
+      <span class="team">{{ nextTeam.name }}</span>
+
+      <div>
+        <span>{{ "roundTransition.language" | translate }}</span>
+        <button
+          class="flag-button"
+          [ngClass]="language === 'es-ES' ? '' : 'grayscale'"
+          (click)="changeLanguage('es-ES')"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/1200px-Flag_of_Spain.svg.png"
+            alt="España"
+            width="30"
+            height="20"
+          />
+        </button>
+        <button
+          class="flag-button"
+          [ngClass]="language === 'en-US' ? '' : 'grayscale'"
+          (click)="changeLanguage('en-US')"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Flag_of_the_United_Kingdom_%2817_by_11%29.png"
+            alt="Reino Unido"
+            width="30"
+            height="20"
+          />
+        </button>
+      </div>
+    </div>
+    <button mat-raised-button class="playButton" (click)="close()">
+      {{ "roundTransition.play" | translate }}
+    </button>
+  </div>
+</ng-template>

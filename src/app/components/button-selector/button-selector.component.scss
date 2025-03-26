@@ -1,0 +1,29 @@
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 32px;
+  width: 90%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectButton {
+  font-size: 2em;
+  padding: 1.5em;
+  font-weight: 600;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease-in-out;
+}
+.selectButton.active {
+  background-color: #c2c2c2;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+  transform: translateY(2px);
+}
+
+.nextButton {
+  color: white !important;
+  background-color: #008080 !important;
+}

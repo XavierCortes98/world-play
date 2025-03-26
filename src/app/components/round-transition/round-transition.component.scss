@@ -1,0 +1,48 @@
+.table-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+table th,
+table td {
+  min-width: 85px;
+  padding: 8px;
+  text-align: center;
+}
+
+.gray-bg {
+  background-color: #f0f0f0;
+}
+
+.head {
+  font-size: x-large;
+}
+
+.team {
+  font-size: 3em;
+}
+
+.playButton {
+  max-width: fit-content;
+  align-self: center;
+}
+
+.flag-button {
+  background: none;
+  border: none;
+}
+
+.flag-button img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  background: none;
+  border: none;
+}
+
+.flag-button.grayscale img {
+  filter: grayscale(100%);
+}

@@ -1,0 +1,8 @@
+<app-button-selector
+  class="w-100 h-100 d-flex flex-column align-items-center"
+  [defaultValue]="rounds"
+  [title]="'initSettings.pickRound'"
+  [buttonsValues]="[1, 2, 3, 4, 5]"
+  [nextPageRoute]="'/time'"
+  (valueSelected)="setRoundValue($event)"
+></app-button-selector>

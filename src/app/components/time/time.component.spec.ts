@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StartGameComponent } from './start-game.component';
+import { TimeComponent } from './time.component';
 
-describe('StartGameComponent', () => {
-  let component: StartGameComponent;
-  let fixture: ComponentFixture<StartGameComponent>;
+describe('TimeComponent', () => {
+  let component: TimeComponent;
+  let fixture: ComponentFixture<TimeComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StartGameComponent]
+      declarations: [TimeComponent]
     });
-    fixture = TestBed.createComponent(StartGameComponent);
+    fixture = TestBed.createComponent(TimeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
