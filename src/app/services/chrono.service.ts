@@ -39,7 +39,6 @@ export class ChronoService {
   }
 
   stopCountdown(): void {
-    console.log('unsubscribing');
     this.running = false;
     this.timerSubscription?.unsubscribe();
     this.timerSubscription = null;

@@ -34,7 +34,7 @@ export class SummaryComponent implements OnInit {
     this.configItems = [
       {
         id: 'rounds',
-        label: 'initSettings.teams',
+        label: 'initSettings.rounds',
         value: this.rounds,
         route: 'rounds',
       },

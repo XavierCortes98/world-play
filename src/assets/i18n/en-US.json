@@ -15,8 +15,8 @@
   },
   "mainGame": {
     "guessed": "Guessed",
-    "nextWord": "Next Word",
-    "correctWord": "Correct Word"
+    "nextWord": "SKIP IT",
+    "correctWord": " GOT IT!"
   },
   "roundTransition": {
     "teamTurn": "Team to play",

@@ -5,7 +5,7 @@
     "pickWords": "Selecciona el numero de palabras",
     "addTeams": "Introduce los equipos",
     "summary": "Ajustes finales",
-    "rounds": "rondas",
+    "rounds": "Rondas",
     "time": "Tiempo",
     "words": "Palabras",
     "teams": "Teams",
@@ -15,8 +15,8 @@
   },
   "mainGame": {
     "guessed": "Aciertos",
-    "nextWord": "Siguiente palabra",
-    "correctWord": "Palabra correcta"
+    "nextWord": "SKIP IT",
+    "correctWord": "GOT IT!"
   },
   "roundTransition": {
     "teamTurn": "Turno del equipo",

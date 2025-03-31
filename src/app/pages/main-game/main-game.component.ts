@@ -161,8 +161,8 @@ export class MainGameComponent implements OnInit, OnDestroy {
     } else {
       this.dialog
         .open(RoundTransitionComponent, {
-          width: '600px',
-          height: '75%',
+          width: '630px',
+          height: '85%',
           disableClose: true,
         })
         .afterClosed()

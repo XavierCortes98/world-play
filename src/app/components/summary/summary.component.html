@@ -1,16 +1,14 @@
 <div class="vh-100 w-100 d-flex flex-column align-items-center p-3">
   <h2 class="text-center">{{ "initSettings.summary" | translate }}</h2>
-  <div class="d-flex flex-column h-100 gap-2">
+  <div class="d-flex w-100 flex-row h-100 justify-content-between">
     <div
       *ngFor="let item of configItems"
-      class="w-100 d-flex align-items-center justify-content-center gap-3"
+      class="w-100 d-flex flex-column align-items-center justify-content-center gap-1"
     >
-      <label [for]="item.id" class="fw-bold text-end"
-        >{{ item.label | translate }}:</label
-      >
+      <label [for]="item.id" class="fs-3">{{ item.label | translate }}:</label>
 
       <input
-        class="form-control w-auto"
+        class="form-control input-info"
         [placeholder]=""
         type="text"
         [id]="item.id"
@@ -23,21 +21,18 @@
         class="d-flex justify-content-center"
         (click)="navPage(item.route)"
       >
-        <mat-icon>edit</mat-icon>
+        <mat-icon class="fs-4">edit</mat-icon>
       </button>
     </div>
-
-    <div class="d-flex flex-column w-100 gap-3 align-items-center">
-      <label class="fw-bold text-end">{{
-        "initSettings.teams" | translate
-      }}</label>
-      <div class="d-flex flex-row w-100 gap-2">
-        <mat-chip
-          *ngFor="let team of teams"
-          [ngStyle]="{ 'background-color': team.color }"
-          >{{ team.name }}</mat-chip
-        >
-      </div>
+  </div>
+  <div class="d-flex flex-column w-50 gap-3 align-items-center">
+    <h3 class="fs-3">{{ "initSettings.teams" | translate }}</h3>
+    <div class="d-flex flex-row w-100 gap-2 justify-content-center">
+      <mat-chip
+        *ngFor="let team of teams"
+        [ngStyle]="{ 'background-color': team.color }"
+        >{{ team.name }}</mat-chip
+      >
     </div>
   </div>
   <div class="w-100 d-flex justify-content-between">
