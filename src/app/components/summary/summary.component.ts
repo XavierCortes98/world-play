@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { GameConfigService } from '../../services/game-config.service';
 import { Team } from 'src/app/models/team.model';
 import { Router } from '@angular/router';
-import { WordService } from 'src/app/services/word.service';
 
 @Component({
   selector: 'app-summary',
@@ -20,16 +19,14 @@ export class SummaryComponent implements OnInit {
 
   constructor(
     public gameConfigService: GameConfigService,
-    private wordService: WordService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.rounds = this.gameConfigService.getRoundsNumber;
-    this.time = this.gameConfigService.getTimeNumber;
-    this.words = this.wordService.getWordsNumber;
+    this.time = this.gameConfigService.getTime;
+    this.words = this.gameConfigService.getWordsNumber;
     this.teams = this.gameConfigService.getTeams;
-    console.log(this.teams);
 
     this.configItems = [
       {

@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoundTransitionComponent } from 'src/app/components/round-transition/round-transition.component';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { WordService } from 'src/app/services/word.service';
 
 @Component({
   selector: 'app-main-game',
@@ -65,22 +64,21 @@ export class MainGameComponent implements OnInit, OnDestroy {
 
   constructor(
     private gameConfigService: GameConfigService,
-    private wordService: WordService,
     private chronoService: ChronoService,
     private dialog: MatDialog,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.currentTeam = this.gameConfigService.getTeam;
-    this.copyWordPool = this.wordService.getWordsPool;
+    this.currentTeam = this.gameConfigService.getTeam(
+      this.gameConfigService.currentTeamIndex
+    );
+
+    this.copyWordPool = this.gameConfigService.getWordsPool;
     this.currentWord =
       this.copyWordPool[Math.floor(Math.random() * this.copyWordPool.length)];
 
-    this.chronoService.startMinutesCountDown(
-      0,
-      this.gameConfigService.getTimeNumber
-    );
+    this.chronoService.startMinutesCountDown(0, this.gameConfigService.getTime);
     this.countdownSubscription = this.chronoService.countdown$.subscribe(
       (time) => {
         this.timeLeft = time;
@@ -157,7 +155,7 @@ export class MainGameComponent implements OnInit, OnDestroy {
     }
     if (this.gameConfigService.isLastRound && this.copyWordPool.length === 0) {
       // Lógica para finalizar el juego, por ejemplo navegar a la pantalla de resultados finales
-      this.router.navigate(['/rounds']);
+      this.router.navigate(['/results']);
     } else {
       this.dialog
         .open(RoundTransitionComponent, {
@@ -176,7 +174,7 @@ export class MainGameComponent implements OnInit, OnDestroy {
     this.score = 0;
 
     if (this.copyWordPool.length === 0) {
-      this.copyWordPool = this.wordService.getWordsPool;
+      this.copyWordPool = this.gameConfigService.getWordsPool;
       this.chronoService.startMinutesCountDown(0, this.remainingTime);
       this.countdownSubscription = this.chronoService.countdown$.subscribe(
         (time) => {
@@ -188,7 +186,7 @@ export class MainGameComponent implements OnInit, OnDestroy {
     } else if (this.chronoService.getSecondsLeft() <= 0) {
       this.chronoService.startMinutesCountDown(
         0,
-        this.gameConfigService.getTimeNumber
+        this.gameConfigService.getTime
       );
       this.countdownSubscription = this.chronoService.countdown$.subscribe(
         (time) => {
@@ -197,7 +195,9 @@ export class MainGameComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.currentTeam = this.gameConfigService.getTeam;
+      this.currentTeam = this.gameConfigService.getTeam(
+        this.gameConfigService.currentTeamIndex
+      );
     }
 
     this.currentWord =

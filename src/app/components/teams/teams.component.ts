@@ -16,7 +16,7 @@ export class TeamsComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private gameConfigService: GameConfigService
+    private gameConfig: GameConfigService
   ) {}
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class TeamsComponent implements OnInit {
       teams: this.fb.array([], teamsValidator()),
     });
 
-    const serviceTeams = this.gameConfigService.getTeams;
+    const serviceTeams = this.gameConfig.getTeams;
 
     if (serviceTeams.length) {
       serviceTeams.forEach((team) => this.teams.push(this.createTeam(team)));
@@ -39,14 +39,11 @@ export class TeamsComponent implements OnInit {
     return this.fb.group({
       name: [team?.name || ''],
       score: [
-        team?.score ||
-          new Array(this.gameConfigService.getRoundsNumber).fill(0),
+        team?.score || new Array(this.gameConfig.getRoundsNumber).fill(0),
       ],
       color: [
         team?.color ||
-          this.gameConfigService.getUniqueColor(
-            this.teamForm.get('teams')?.value
-          ),
+          this.gameConfig.getUniqueColor(this.teamForm.get('teams')?.value),
       ],
     });
   }
@@ -75,7 +72,7 @@ export class TeamsComponent implements OnInit {
   }
 
   nextPage() {
-    this.gameConfigService.setTeams(this.teamForm.get('teams')?.value);
+    this.gameConfig.setTeams(this.teamForm.get('teams')?.value);
     this.router.navigate(['/summary']);
   }
   previousPage() {

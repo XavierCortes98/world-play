@@ -1,26 +1,7 @@
 <ng-container *ngIf="!nextRound; else nextRoundTemplate">
   <mat-dialog-content class="d-flex flex-column p-3 gap-4">
     <h2>Ronda acabada</h2>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Equipo</th>
-            <ng-container *ngFor="let ronda of rondas; index as i">
-              <th [ngClass]="{ 'gray-bg': i % 2 === 0 }">R{{ i + 1 }}</th>
-            </ng-container>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let team of gameConfigService.teams">
-            <td [style.backgroundColor]="team.color">{{ team.name }}</td>
-            <ng-container *ngFor="let ronda of rondas; index as i">
-              <td>{{ team.score[i] !== undefined ? team.score[i] : 0 }}</td>
-            </ng-container>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <app-score-table></app-score-table>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

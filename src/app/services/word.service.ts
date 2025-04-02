@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { WordData } from '../models/wordData.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,9 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable({
   providedIn: 'root',
 })
-export class WordService {
+export class WordsService {
   language = '';
-  wordsNumber = 15;
+  wordsNumber!: number;
   wordsPool!: WordData;
 
   private jsonUrl = 'assets/words.json';
@@ -17,29 +17,32 @@ export class WordService {
   constructor(
     private http: HttpClient,
     private translateService: TranslateService
-  ) {}
+  ) {
+    localStorage.getItem('wordsNumber') === null
+      ? (this.wordsNumber = 15)
+      : (this.wordsNumber = Number(localStorage.getItem('wordsNumber')));
+    this.setWordPool();
+  }
 
   get getWordsNumber(): number {
     return this.wordsNumber;
   }
 
   setWordNumber(wordNumber: number) {
-    console.log('word number: ', wordNumber);
     this.wordsNumber = wordNumber;
-    this.setWordPool(wordNumber);
-  }
-
-  setWordPool(words: number) {
-    this.getRandomWords(words).subscribe((response) => {
-      this.wordsPool = response;
-      console.log('word pool: ', this.wordsPool);
-    });
+    localStorage.setItem('wordsNumber', wordNumber.toString());
   }
 
   get getWordsPool(): string[] {
     return this.translateService.currentLang === 'es-ES'
       ? this.wordsPool.spanish
       : this.wordsPool.english;
+  }
+
+  setWordPool() {
+    this.getRandomWords(this.wordsNumber).subscribe((response) => {
+      this.wordsPool = response;
+    });
   }
 
   getRandomWords(count: number): Observable<WordData> {

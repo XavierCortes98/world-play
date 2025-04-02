@@ -1,27 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Team } from '../models/team.model';
+import { RoundsService } from './rounds.service';
+import { TimeService } from './time.service';
+import { WordsService } from './word.service';
+import { TeamsService } from './teams.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameConfigService {
-  roundsNumber = 3;
-  timeNumber = 6;
-
-  teams: Team[] = [
-    {
-      name: 'Abc',
-      score: [0, 0, 0],
-      color: '#87CEEB',
-    },
-    {
-      name: 'def',
-      score: [0, 0, 0],
-      color: '#EC3B3B',
-    },
-  ];
   currentTeamIndex = 0;
   currentRound = 0;
+
   colors = [
     '#87CEEB',
     '#EC3B3B',
@@ -32,54 +22,75 @@ export class GameConfigService {
     '#FF8C00',
   ];
 
-  constructor() {}
+  constructor(
+    private roundsService: RoundsService,
+    private timeService: TimeService,
+    private wordService: WordsService,
+    private teamsService: TeamsService
+  ) {}
 
+  // ROUNDS
   get getRoundsNumber(): number {
-    return this.roundsNumber;
+    return this.roundsService.getRoundsNumber;
   }
 
   setRoundsNumber(rounds: number) {
-    this.roundsNumber = rounds;
-  }
-
-  get getTimeNumber(): number {
-    return this.timeNumber;
-  }
-
-  setTimeNumber(time: number) {
-    this.timeNumber = time;
-  }
-
-  get getTeams(): Team[] {
-    return this.teams;
-  }
-
-  setTeams(teams: Team[]) {
-    teams.pop();
-    this.teams = teams;
-  }
-
-  get getTeam(): Team {
-    return this.teams[this.currentTeamIndex];
+    this.roundsService.setRoundsNumber(rounds);
   }
 
   get isLastRound(): boolean {
-    return this.currentRound === this.roundsNumber - 1;
+    return this.currentRound === this.getRoundsNumber - 1;
   }
 
   nextRound(): void {
     this.currentRound++;
   }
 
+  // TIME
+  get getTime(): number {
+    return this.timeService.getTimeNumber;
+  }
+
+  setTime(time: number) {
+    this.timeService.setTimeNumber(time);
+  }
+
+  // WORDS
+  get getWordsNumber(): number {
+    return this.wordService.getWordsNumber;
+  }
+
+  setWordsNumber(words: number) {
+    this.wordService.setWordNumber(words);
+  }
+
+  get getWordsPool(): string[] {
+    console.log('word', this.wordService.getWordsPool);
+    return this.wordService.getWordsPool;
+  }
+
+  // TEAMS
+  getTeam(teamIndex: number): Team {
+    return this.teamsService.getTeams[teamIndex];
+  }
+
+  get getTeams(): Team[] {
+    return this.teamsService.getTeams;
+  }
+
+  setTeams(teams: Team[]) {
+    this.teamsService.setTeams(teams);
+  }
+
   nextTeam(): void {
     this.currentTeamIndex++;
-    if (this.currentTeamIndex >= this.teams.length) {
+    if (this.currentTeamIndex >= this.teamsService.getTeams.length) {
       this.currentTeamIndex = 0;
     }
   }
 
   setTeamScore(score: number): void {
-    this.teams[this.currentTeamIndex].score[this.currentRound] += score;
+    this.getTeam(this.currentTeamIndex).score[this.currentRound] += score;
   }
 
   getUniqueColor(teams: Team[]) {
@@ -91,6 +102,6 @@ export class GameConfigService {
     if (availableColors.length > 0) {
       return availableColors[0];
     }
-    return this.colors[this.teams.length % this.colors.length];
+    return this.colors[this.teamsService.getTeams.length % this.colors.length];
   }
 }

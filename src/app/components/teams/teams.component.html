@@ -4,7 +4,7 @@
 >
   <fieldset
     formArrayName="teams"
-    class="d-flex flex-column overflow-auto align-items-center p-3 h-100"
+    class="d-flex flex-column overflow-auto align-items-center px-3 h-100"
   >
     <legend
       for="words"
@@ -13,22 +13,50 @@
     >
       {{ "initSettings.addTeams" | translate }}
     </legend>
-    <div class="groupWrapper">
-      <div
-        *ngFor="let teamControl of teams.controls; let i = index"
-        [formGroupName]="i"
-      >
-        <input
-          type="text"
-          [id]="'team' + i"
-          formControlName="name"
-          [placeholder]="'Nombre del equipo ' + (i + 1)"
-          class="form-control mb-2 text-center"
-          (focus)="onFocusInput(i)"
-          (blur)="onBlurInput(i)"
-          [attr.aria-label]="'Nombre del equipo ' + (i + 1)"
-          maxlength="15"
-        />
+    <div class="d-flex w-100 gap-2">
+      <!-- Primera columna -->
+      <div>
+        <div
+          *ngFor="
+            let teamControl of teams.controls | slice : 0 : 5;
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <input
+            type="text"
+            [id]="'team' + i"
+            formControlName="name"
+            [placeholder]="'Nombre del equipo ' + (i + 1)"
+            class="form-control mb-2 text-center"
+            (focus)="onFocusInput(i)"
+            (blur)="onBlurInput(i)"
+            [attr.aria-label]="'Nombre del equipo ' + (i + 1)"
+            maxlength="15"
+          />
+        </div>
+      </div>
+      <!-- Segunda columna -->
+      <div>
+        <div
+          *ngFor="
+            let teamControl of teams.controls | slice : 5 : 10;
+            let j = index
+          "
+          [formGroupName]="j + 5"
+        >
+          <input
+            type="text"
+            [id]="'team' + (j + 5)"
+            formControlName="name"
+            [placeholder]="'Nombre del equipo ' + (j + 6)"
+            class="form-control mb-2 text-center"
+            (focus)="onFocusInput(j + 5)"
+            (blur)="onBlurInput(j + 5)"
+            [attr.aria-label]="'Nombre del equipo ' + (j + 6)"
+            maxlength="15"
+          />
+        </div>
       </div>
     </div>
   </fieldset>

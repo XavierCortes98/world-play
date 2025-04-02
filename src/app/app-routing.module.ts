@@ -6,6 +6,7 @@ import { TimeComponent } from './components/time/time.component';
 import { WordsComponent } from './components/words/words.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { ResultsComponent } from './pages/results/results.component';
 
 const routes: Routes = [
   { path: 'rounds', component: RoundsComponent, data: { animation: 1 } },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'teams', component: TeamsComponent, data: { animation: 4 } },
   { path: 'summary', component: SummaryComponent, data: { animation: 5 } },
   { path: 'game', component: MainGameComponent, data: { animation: 6 } },
+  { path: 'results', component: ResultsComponent, data: { animation: 7 } },
   { path: '**', redirectTo: 'rounds' },
 ];
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WordService } from 'src/app/services/word.service';
+import { GameConfigService } from 'src/app/services/game-config.service';
 
 @Component({
   selector: 'app-words',
@@ -7,16 +7,15 @@ import { WordService } from 'src/app/services/word.service';
   styleUrls: ['./words.component.scss'],
 })
 export class WordsComponent implements OnInit {
-  words!: number;
+  wordsNumber!: number;
 
-  constructor(private wordService: WordService) {}
+  constructor(private gameConfig: GameConfigService) {}
 
   ngOnInit(): void {
-    this.words = this.wordService.getWordsNumber;
-    this.wordService.setWordPool(this.words);
+    this.wordsNumber = this.gameConfig.getWordsNumber;
   }
 
   setWordsValue(wordsValue: number) {
-    this.wordService.setWordNumber(wordsValue);
+    this.gameConfig.setWordsNumber(wordsValue);
   }
 }

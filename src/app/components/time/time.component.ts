@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GameConfigService } from '../../services/game-config.service';
+import { TimeService } from '../../services/time.service';
 
 @Component({
   selector: 'app-time',
@@ -12,13 +13,13 @@ export class TimeComponent implements OnInit {
 
   presetButtonsValues = [30, 45, 60, 90];
 
-  constructor(private gameConfigService: GameConfigService) {}
+  constructor(private gameCofig: GameConfigService) {}
 
   ngOnInit() {
-    this.time = this.gameConfigService.getTimeNumber;
+    this.time = this.gameCofig.getTime;
   }
 
   setTimeValue(time: number) {
-    this.gameConfigService.setTimeNumber(time);
+    this.gameCofig.setTime(time);
   }
 }
