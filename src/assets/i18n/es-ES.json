@@ -22,5 +22,12 @@
     "teamTurn": "Turno del equipo",
     "language": "Idioma",
     "play": "¡Jugar!"
+  },
+  "scoreTable": {
+    "team": "Equipo"
+  },
+  "results": {
+    "winnerText": "El ganador es",
+    "playAgain": "Jugar de nuevo"
   }
 }

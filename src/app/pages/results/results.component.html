@@ -1,1 +1,18 @@
-<p>results works!</p>
+<div
+  class="d-flex vh-100 flex-column align-items-center justify-content-around p-2"
+>
+  <div class="d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="fw-normal">
+        {{ "results.winnerText" | translate }}: <br />
+        <span class="d-block text-center fw-bold">{{ winnerTeam.name }}</span>
+      </h1>
+    </div>
+  </div>
+  <app-score-table></app-score-table>
+  <div class="w-100 d-flex justify-content-end">
+    <button mat-raised-button (click)="goToHome()">
+      {{ "results.playAgain" | translate }}
+    </button>
+  </div>
+</div>

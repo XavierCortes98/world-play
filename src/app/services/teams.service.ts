@@ -8,12 +8,12 @@ export class TeamsService {
   teams: Team[] = [
     {
       name: 'Abc',
-      score: [0, 0, 0],
+      score: [1, 2, 0],
       color: '#87CEEB',
     },
     {
       name: 'def',
-      score: [0, 0, 0],
+      score: [2, 3, 0],
       color: '#EC3B3B',
     },
   ];

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Team } from 'src/app/models/team.model';
 import { GameConfigService } from 'src/app/services/game-config.service';
 
 @Component({
@@ -15,5 +16,8 @@ export class ScoreTableComponent implements OnInit {
       { length: this.gameConfigService.getRoundsNumber },
       (_, i) => i + 1
     );
+  }
+  getTotalScore(team: Team): number {
+    return team.score.reduce((acc: number, curr: number) => acc + (curr || 0), 0);
   }
 }
