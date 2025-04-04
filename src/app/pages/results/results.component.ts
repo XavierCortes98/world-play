@@ -13,7 +13,6 @@ export class ResultsComponent {
 
   constructor(private gameConfig: GameConfigService, private router: Router) {
     this.winnerTeam = this.calcWinnerTeam()!;
-    console.log(this.winnerTeam);
   }
 
   calcWinnerTeam(): Team | undefined {
