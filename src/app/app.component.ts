@@ -13,7 +13,6 @@ export class AppComponent {
   constructor(private translateService: TranslateService) {
     this.translateService.setDefaultLang('en-US');
     const browserLang = translateService.getBrowserCultureLang();
-    console.log(browserLang);
     this.translateService.use(
       browserLang?.match(/en-US|es-ES/) ? browserLang : 'en-US'
     );

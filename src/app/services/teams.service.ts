@@ -5,48 +5,7 @@ import { Team } from '../models/team.model';
   providedIn: 'root',
 })
 export class TeamsService {
-  teams: Team[] = [
-    {
-      name: 'Abc',
-      score: [0, 0, 0],
-      color: '#87CEEB',
-    },
-    {
-      name: 'def',
-      score: [0, 0, 0],
-      color: '#EC3B3B',
-    },
-    {
-      name: 'Abc',
-      score: [0, 0, 0],
-      color: '#87CEEB',
-    },
-    {
-      name: 'def',
-      score: [0, 0, 0],
-      color: '#EC3B3B',
-    },
-    {
-      name: 'Abc',
-      score: [0, 0, 0],
-      color: '#87CEEB',
-    },
-    {
-      name: 'def',
-      score: [0, 0, 0],
-      color: '#EC3B3B',
-    },
-    {
-      name: 'Abc',
-      score: [0, 0, 0],
-      color: '#87CEEB',
-    },
-    {
-      name: 'def',
-      score: [0, 0, 0],
-      color: '#EC3B3B',
-    },
-  ];
+  teams: Team[] = [];
 
   constructor() {}
 

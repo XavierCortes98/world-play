@@ -65,7 +65,6 @@ export class GameConfigService {
   }
 
   get getWordsPool(): string[] {
-    console.log('word', this.wordService.getWordsPool);
     return this.wordService.getWordsPool;
   }
 

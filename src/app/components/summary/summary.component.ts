@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameConfigService } from '../../services/game-config.service';
 import { Team } from 'src/app/models/team.model';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-summary',
@@ -19,7 +20,8 @@ export class SummaryComponent implements OnInit {
 
   constructor(
     public gameConfigService: GameConfigService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -59,5 +61,9 @@ export class SummaryComponent implements OnInit {
   }
   prevPage() {
     this.router.navigate(['/teams']);
+  }
+
+  setLanguage(lang: string) {
+    this.translateService.use(lang);
   }
 }
