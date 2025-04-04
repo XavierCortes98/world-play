@@ -1,13 +1,23 @@
-<ng-container *ngIf="!nextRound; else nextRoundTemplate">
+<div
+  *ngIf="!nextRound; else nextRoundTemplate"
+  class="d-flex flex-column w-100 h-100 justify-content-around"
+>
   <mat-dialog-content class="d-flex flex-column p-3 gap-4">
-    <h2>Ronda acabada</h2>
+    <div class="d-flex w-100 align-items-center gap-2 justify-content-between">
+      <h2>Ronda acabada</h2>
+      <span class="mb-1" *ngIf="data.remainingWords.length > 0"
+        >Remaining Words: {{ data.remainingWords.length }}</span
+      >
+    </div>
     <app-score-table></app-score-table>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button (click)="nextRound = true">Siguiente equipo</button>
+    <button mat-raised-button class="nextButton" (click)="nextRound = true">
+      Siguiente equipo
+    </button>
   </mat-dialog-actions>
-</ng-container>
+</div>
 
 <ng-template #nextRoundTemplate>
   <div
@@ -17,36 +27,10 @@
     <div
       class="d-flex flex-column align-items-center justify-content-center h-100"
     >
-      <span class="head">{{ "roundTransition.teamTurn" | translate }}:</span>
-      <span class="team">{{ nextTeam.name }}</span>
-
-      <div>
-        <span>{{ "roundTransition.language" | translate }}</span>
-        <button
-          class="flag-button"
-          [ngClass]="language === 'es-ES' ? '' : 'grayscale'"
-          (click)="changeLanguage('es-ES')"
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/1200px-Flag_of_Spain.svg.png"
-            alt="España"
-            width="30"
-            height="20"
-          />
-        </button>
-        <button
-          class="flag-button"
-          [ngClass]="language === 'en-US' ? '' : 'grayscale'"
-          (click)="changeLanguage('en-US')"
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Flag_of_the_United_Kingdom_%2817_by_11%29.png"
-            alt="Reino Unido"
-            width="30"
-            height="20"
-          />
-        </button>
-      </div>
+      <h1 class="fw-normal">
+        {{ "roundTransition.teamTurn" | translate }}: <br />
+        <span class="d-block text-center fw-bold">{{ nextTeam.name }}</span>
+      </h1>
     </div>
     <button mat-raised-button class="playButton" (click)="close()">
       {{ "roundTransition.play" | translate }}

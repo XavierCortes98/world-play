@@ -1,17 +1,21 @@
-<div class="table-container">
-  <table>
+<div class="table-container p-2">
+  <table class="d-flex w-100 flex-column">
     <thead>
       <tr>
-        <th>{{ "scoreTable.team" | translate }}</th>
+        <th class="sticky-col">{{ "scoreTable.team" | translate }}</th>
         <ng-container *ngFor="let ronda of rondas; index as i">
-          <th [ngClass]="{ 'gray-bg': i % 2 === 0 }">R{{ i + 1 }}</th>
+          <th class="test" [ngClass]="{ 'gray-bg': i % 2 !== 0 }">
+            R{{ i + 1 }}
+          </th>
         </ng-container>
-        <th>Total</th>
+        <th class="test">Total</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let team of gameConfigService.getTeams">
-        <td [style.backgroundColor]="team.color">{{ team.name }}</td>
+        <td class="sticky-col" [style.backgroundColor]="team.color">
+          {{ team.name }}
+        </td>
         <ng-container *ngFor="let ronda of rondas; index as i">
           <td>{{ team.score[i] !== undefined ? team.score[i] : 0 }}</td>
         </ng-container>

@@ -15,6 +15,7 @@
   },
   "mainGame": {
     "guessed": "Guessed",
+    "missedIt": "MISSED",
     "nextWord": "SKIP IT",
     "correctWord": " GOT IT!"
   },

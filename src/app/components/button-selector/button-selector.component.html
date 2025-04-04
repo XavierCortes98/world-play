@@ -19,10 +19,15 @@
       'justify-content-end': !prevPageRoute
     }"
   >
-    <button *ngIf="prevPageRoute" mat-raised-button (click)="prevPage()">
+    <button
+      *ngIf="prevPageRoute"
+      mat-raised-button
+      (click)="prevPage()"
+      class="buttonsFooter"
+    >
       ← {{ "initSettings.back" | translate }}
     </button>
-    <button mat-raised-button class="nextButton" (click)="nextPage()">
+    <button mat-raised-button (click)="nextPage()" class="buttonsFooter">
       {{ "initSettings.next" | translate }} →
     </button>
   </div>

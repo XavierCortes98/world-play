@@ -1,4 +1,15 @@
+.nextButton {
+  max-width: fit-content;
+  align-self: center;
+  font-size: larger !important;
+  min-width: 90px !important;
+  min-height: 45px !important;
+}
+
 .playButton {
   max-width: fit-content;
   align-self: center;
+  font-size: larger !important;
+  min-width: 120px !important;
+  min-height: 65px !important;
 }

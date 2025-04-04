@@ -1,29 +1,38 @@
 .table-container {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    overflow-x: auto;
-  }
-  
-  table th,
-  table td {
-    min-width: 85px;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .gray-bg {
-    background-color: #f0f0f0;
-  }
-  
-  .head {
-    font-size: x-large;
-  }
-  
-  .team {
-    font-size: 3em;
-  }
-  
- 
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  overflow-x: auto;
+  box-sizing: content-box; /* Asegura que el padding se sume al ancho total */
+}
 
-  
+.score-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: -85px;
+}
+
+.sticky-col {
+  left: 0;
+  position: sticky;
+  background: white;
+}
+
+table th,
+table td {
+  min-width: 85px;
+  padding: 8px;
+  text-align: center;
+}
+
+.gray-bg {
+  background-color: #f0f0f0;
+}
+
+.head {
+  font-size: x-large;
+}
+
+.team {
+  font-size: 3em;
+}

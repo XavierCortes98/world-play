@@ -15,6 +15,7 @@
   },
   "mainGame": {
     "guessed": "Aciertos",
+    "missedIt": "FALLADA",
     "nextWord": "SKIP IT",
     "correctWord": "GOT IT!"
   },

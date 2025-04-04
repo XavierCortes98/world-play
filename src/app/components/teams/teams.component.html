@@ -61,13 +61,14 @@
     </div>
   </fieldset>
   <div class="w-100 d-flex justify-content-between">
-    <button mat-raised-button (click)="previousPage()">
+    <button mat-raised-button (click)="previousPage()" class="buttonsFooter">
       ← {{ "initSettings.back" | translate }}
     </button>
     <button
       [disabled]="teamForm.invalid"
       mat-raised-button
       (click)="nextPage()"
+      class="buttonsFooter"
     >
       {{ "initSettings.next" | translate }} →
     </button>

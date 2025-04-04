@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Team } from 'src/app/models/team.model';
 import { GameConfigService } from 'src/app/services/game-config.service';
@@ -16,7 +16,8 @@ export class RoundTransitionComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<RoundTransitionComponent>,
     public gameConfigService: GameConfigService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    @Inject(MAT_DIALOG_DATA) public data: { remainingWords: string[] }
   ) {}
 
   ngOnInit(): void {

@@ -92,6 +92,10 @@ export class MainGameComponent implements OnInit, OnDestroy {
     this.chronoService.stopCountdown();
   }
 
+  get currentRound(): number {
+    return this.gameConfigService.currentRound;
+  }
+
   updateTimerUI() {
     const timeContainer = document.getElementById('timeContainer');
     if (this.chronoService.getSecondsLeft() <= 0) {
@@ -144,6 +148,10 @@ export class MainGameComponent implements OnInit, OnDestroy {
     this.handleWord(true);
   }
 
+  missWord() {
+    this.endOfRound();
+  }
+
   endOfRound(): void {
     this.remainingTime = this.chronoService.getSecondsLeft();
     this.countdownSubscription?.unsubscribe();
@@ -162,6 +170,9 @@ export class MainGameComponent implements OnInit, OnDestroy {
           width: '630px',
           height: '85%',
           disableClose: true,
+          data: {
+            remainingWords: this.copyWordPool,
+          },
         })
         .afterClosed()
         .subscribe(() => {

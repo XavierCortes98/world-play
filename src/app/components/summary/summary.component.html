@@ -27,7 +27,7 @@
   </div>
   <div class="d-flex flex-column w-50 gap-3 align-items-center">
     <h3 class="fs-3">{{ "initSettings.teams" | translate }}</h3>
-    <div class="d-flex flex-row w-100 gap-2 justify-content-center">
+    <div class="d-flex flex-row w-100 gap-2 justify-content-center flex-wrap">
       <mat-chip
         *ngFor="let team of teams"
         [ngStyle]="{ 'background-color': team.color }"
@@ -36,10 +36,10 @@
     </div>
   </div>
   <div class="w-100 d-flex justify-content-between">
-    <button mat-raised-button (click)="prevPage()" class="buttons">
+    <button mat-raised-button (click)="prevPage()" class="buttonsFooter">
       ← {{ "initSettings.back" | translate }}
     </button>
-    <button mat-raised-button (click)="nextPage()" class="buttons">
+    <button mat-raised-button (click)="nextPage()" class="buttonsFooter">
       {{ "initSettings.play" | translate }}
     </button>
   </div>
